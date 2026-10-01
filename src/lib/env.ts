@@ -9,5 +9,7 @@ export const supabaseConfigured = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
 export const serverEnv = {
   serviceRoleConfigured: () => Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY),
   geminiConfigured: () => Boolean(process.env.GEMINI_API_KEY),
-  geminiModel: () => process.env.GEMINI_MODEL || "gemini-2.5-flash",
+  geminiModel: () => process.env.GEMINI_MODEL || "gemini-3.8-flash",
+  /** Tried in order when the primary model stays overloaded. */
+  geminiFallbacks: () => (process.env.GEMINI_FALLBACK_MODELS ?? "gemini-3.1-flash-lite,gemini-flash-latest").split(",").map((m) => m.trim()).filter(Boolean),
 };

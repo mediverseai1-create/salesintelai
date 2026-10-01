@@ -90,15 +90,18 @@ export async function processImport(ctx: AppContext, importId: string, entity: E
       const stageName = get(r, "stage");
       const stageId = await resolveStage(stageName);
       const owner = get(r, "owner");
+      const isOpen = !stageName || stageMap.get(lc(stageName))?.kind === "open";
       const created = dayOnly(parseDate(get(r, "created_on")));
+      const closeDate = dayOnly(parseDate(get(r, "closed_at")));
       records.push({
         org_id: org, account_id: acctMap.get(lc(account)), name: get(r, "name") || `${account} opportunity`, amount,
         stage_id: stageId, probability: prob == null ? null : Math.round(prob),
         owner_rep_id: owner ? repMap.get(lc(owner)) ?? null : null,
         product: get(r, "product") || null, region: get(r, "region") || null, motion: get(r, "motion") || null,
         ...(created ? { created_on: created } : {}),
-        expected_close_date: dayOnly(parseDate(get(r, "expected_close_date"))),
-        closed_at: dayOnly(parseDate(get(r, "closed_at"))),
+        // A "close date" on a still-open deal is its expected close date.
+        expected_close_date: dayOnly(parseDate(get(r, "expected_close_date"))) ?? (isOpen ? closeDate : null),
+        closed_at: isOpen ? null : closeDate,
         last_activity_at: parseDate(get(r, "last_activity_at")),
         loss_reason: get(r, "loss_reason") || null, import_id: importId,
       });

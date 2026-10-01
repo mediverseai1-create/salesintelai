@@ -97,6 +97,7 @@ export function parseMoney(v: string | undefined): number | null {
   if (v == null) return null;
   const s = String(v).trim();
   if (!s) return null;
+  if (!/\d/.test(s)) return null;
   const neg = /^\(.*\)$/.test(s);
   let n = Number(s.replace(/[^0-9.,-]/g, "").replace(/,(?=\d{3}(\D|$))/g, "").replace(",", "."));
   if (/k$/i.test(s)) n *= 1000;
