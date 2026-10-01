@@ -1,24 +1,37 @@
 import Link from "next/link";
 import { AskDemo } from "@/components/marketing/ask-demo";
 import { RhythmTabs } from "@/components/marketing/rhythm-tabs";
-import { BriefingMock, CtaPair, DeliverableCards, LoopDiagram, PricingCards, Section, SixGrid, TextLink } from "@/components/marketing/parts";
+import { CtaPair, DeliverableCards, LoopDiagram, PricingCards, Section, SixGrid, TextLink } from "@/components/marketing/parts";
 
 export default function Home() {
   return (
     <>
       <section className="border-b border-ink">
-        <div className="mx-auto grid max-w-6xl gap-14 px-4 py-16 md:px-8 md:py-24 lg:grid-cols-[1.05fr_1fr] lg:items-center">
+        <div className="mx-auto max-w-6xl px-4 pb-12 pt-16 md:px-8 md:pb-16 md:pt-28">
           <div className="fade-up">
-            <div className="eyebrow mb-5">The AI revenue platform</div>
-            <h1 className="display text-5xl sm:text-6xl lg:text-[4.6rem]">The system of record for revenue that reads itself.</h1>
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">
-              SalesIntel AI unifies your pipeline, your calls and your follow-ups, then delivers the report, the strategy and the action plan your team needs, account by account, rep by rep, on the rhythm you set.
-            </p>
-            <div className="mt-8"><CtaPair /></div>
-            <p className="mt-6 text-sm text-muted">Structured pipeline data · Call intelligence · Workspace-level security</p>
+            <div className="eyebrow mb-6 flex items-center gap-3"><span className="h-px w-10 bg-accent" />The AI revenue platform</div>
+            <h1 className="display max-w-5xl text-[2.9rem] leading-[0.98] sm:text-7xl lg:text-[6.5rem]">
+              The system of record for revenue that <em className="text-accent not-italic">reads itself.</em>
+            </h1>
+            <div className="mt-10 grid gap-10 md:grid-cols-[1.3fr_1fr] md:items-end">
+              <p className="max-w-2xl text-lg leading-relaxed text-ink-soft md:text-xl">
+                SalesIntel AI unifies your pipeline, your calls and your follow-ups, then delivers the report, the strategy and the action plan your team needs, account by account, rep by rep, on the rhythm you set.
+              </p>
+              <div>
+                <CtaPair />
+                <p className="mt-5 text-sm text-muted">Structured pipeline data · Call intelligence · Workspace-level security</p>
+              </div>
+            </div>
           </div>
-          <div className="fade-up [animation-delay:120ms]"><BriefingMock /></div>
         </div>
+        <ol className="mx-auto grid max-w-6xl border-t border-ink md:grid-cols-3">
+          {[["01", "Report", "What happened, with the figures behind it."], ["02", "Strategy", "Where to put effort, built from your own wins."], ["03", "Action plan", "Accounts, owners, deadlines, definition of done."]].map(([n, t, d], i) => (
+            <li key={n} className={`flex items-baseline gap-4 px-4 py-5 md:px-8 ${i ? "border-t border-line md:border-l md:border-t-0" : ""}`}>
+              <span className="numeral text-3xl text-accent">{n}</span>
+              <div><div className="font-semibold">{t}</div><div className="text-sm text-ink-soft">{d}</div></div>
+            </li>
+          ))}
+        </ol>
       </section>
 
       <Section id="deliverables" eyebrow="Deliverables" title="Three things, every briefing. Written to be used, not filed.">
