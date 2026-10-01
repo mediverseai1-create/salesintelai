@@ -1,36 +1,21 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SalesIntel AI
 
-## Getting Started
+AI-native revenue intelligence for sales managers and RevOps. Next.js 16 · React 19 · TypeScript · Tailwind 4 · Supabase (Auth, Postgres + RLS, Storage) · Gemini.
 
-First, run the development server:
+## Setup
+1. `npm install`
+2. Create a Supabase project and run `supabase/migrations/0001_schema.sql` in the SQL editor.
+3. Copy `.env.example` to `.env.local` and fill it in (Supabase URL/keys, `GEMINI_API_KEY`, payment links).
+4. In Supabase → Authentication → URL configuration, add `http://localhost:3000/auth/callback` (and your production URL) as redirect URLs.
+5. `npm run dev` — visit `/setup` for a live configuration checklist.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Scripts
+- `npm run dev` / `npm run build` / `npm run lint` / `npm run typecheck`
+- `npm test` — metrics-engine tests and a database test that applies the migration to an in-process Postgres and checks workspace isolation, roles and credits.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## How it works
+- **Isolation**: every business table has `org_id` and RLS; roles (owner/admin/member) are enforced in SQL. Cross-workspace links are blocked by composite foreign keys.
+- **Intelligence**: `src/lib/intel` computes metrics and the six findings deterministically from your records; Gemini (server-side only) narrates them. Rule-based Next Best Actions need no AI.
+- **Credits**: spent atomically via a service-role-only SQL function and refunded if an AI call fails. Costs and plans live in `src/config/pricing.ts` (and the `plans` table).
+- **Payments**: hosted payment links only (`STARTER_PAYMENT_LINK`, `PRO_PAYMENT_LINK`). Apply a plan after the provider confirms payment with `POST /api/billing/activate` (Bearer `BILLING_ADMIN_SECRET`).
+- **Limits**: no email sending, no external lead database, audio ≤ 15 MB (inline to Gemini).
