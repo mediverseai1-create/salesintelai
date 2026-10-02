@@ -13,7 +13,7 @@ const display = Instrument_Serif({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://salesintelai.digital"),
   title: {
-    default: "SalesIntel AI — The system of record for revenue that reads itself",
+    default: "SalesIntel AI — The AI sales partner that turns your data into revenue",
     template: "%s · SalesIntel AI",
   },
   description:

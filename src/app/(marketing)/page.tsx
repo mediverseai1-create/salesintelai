@@ -11,7 +11,7 @@ export default function Home() {
           <div className="fade-up">
             <div className="eyebrow mb-6 flex items-center gap-3"><span className="h-px w-10 bg-accent" />The AI revenue platform</div>
             <h1 className="display max-w-5xl text-[2.9rem] leading-[0.98] sm:text-7xl lg:text-[6.5rem]">
-              The system of record for revenue that <em className="text-accent not-italic">reads itself.</em>
+              The AI sales partner that turns your data <em className="text-accent not-italic">into revenue.</em>
             </h1>
             <div className="mt-10 grid gap-10 md:grid-cols-[1.3fr_1fr] md:items-end">
               <p className="max-w-2xl text-lg leading-relaxed text-ink-soft md:text-xl">
